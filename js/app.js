@@ -1,4 +1,4 @@
-import { add_html_element, scale_card, fetch_from_api, add_button_with_onclick_event } from "./helper.js"
+import { add_html_element, scale_card, fetch_from_api, add_button_with_onclick_event } from "./helpers.js"
 
 const container_div = add_html_element(
     { html_tag: "div", class_name: "container" }

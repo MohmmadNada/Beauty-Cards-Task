@@ -1,5 +1,5 @@
 
-function rgbToHex(col) {
+function rgb_to_hex(col) {
     if (col.charAt(0) == 'r') {
         col = col.replace('rgb(', '').replace(')', '').split(',');
         let r = parseInt(col[0], 10).toString(16);
@@ -25,7 +25,7 @@ function scale_card(element_id, selected_color_names) {
     const color_div = card_element.querySelector("div")
     const button = document.querySelector(`[for='${element_id}']`)
     let selected_number = Number(document.getElementById("number-of-selected").textContent)
-    const color_name = ntc.name(rgbToHex(color_div.style.backgroundColor))[1]
+    const color_name = ntc.name(rgb_to_hex(color_div.style.backgroundColor))[1]
     if (card_element.getAttribute("style")) {
         if (!Object.values(card_element.style).indexOf("transform")) {
             card_element.style.transform = null

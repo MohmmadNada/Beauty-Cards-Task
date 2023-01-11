@@ -21,7 +21,7 @@ h3 {
     margin: 0em 0.5rem;
 }
 
-div.container {
+.container {
     flex: 1 1 auto;
     display: flex;
     flex-wrap: wrap;
@@ -29,7 +29,7 @@ div.container {
     align-content: space-around;
 }
 
-div.card {
+.card {
     border: 0.5mm solid #bfd7bd;
     flex-shrink: 1;
     display: flex;
