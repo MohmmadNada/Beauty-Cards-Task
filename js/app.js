@@ -29,6 +29,3 @@ response_data.forEach(element => {
         }
     )
 });
-
-// TODO: USE FETCH FUN WITH ASYNC
-// TODO: Move CARD_API into env.var
