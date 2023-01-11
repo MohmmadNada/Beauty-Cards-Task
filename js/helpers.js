@@ -47,10 +47,10 @@ function scale_card(element_id, selected_color_names) {
 
 async function fetch_from_api(api_link) {
     let response_data;
-    await axios.get(api_link)
+    await fetch(api_link)
         .then(
             (response) => {
-                response_data = response.data
+                response_data = response.json()
             }
         ).catch((error) => {
             console.log(error)
