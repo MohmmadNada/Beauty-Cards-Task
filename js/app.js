@@ -14,7 +14,7 @@ response_data.forEach(({id,thumbnailUrl,title }) => {
     card_element.setAttribute("id", "card-" + (id))
     color_div.style.backgroundColor = color_hex;
     for (let index = 0; index < 2; index++) {
-        const p_element = add_html_element({ html_tag: "p", parent_element: card_element })
+        const p_element = add_html_element({ html_tag: "p", class_name: "color-paragraph", parent_element: card_element })
         p_element.textContent += title
     }
     const button_attrs = {

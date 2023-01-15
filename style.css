@@ -1,3 +1,12 @@
+:root {
+    --auburn: #a0231d;
+    --alloy-orange-dark: #c65520;
+    --alloy-orange-light: #e77f22;
+    --white: #ffffff;
+    --jet-stream: #bfd7bd;
+    --red: #fb1e1f;
+}
+
 html,
 body {
     height: 100vh;
@@ -10,10 +19,10 @@ body {
 }
 
 header {
-    background: linear-gradient(90deg, #a0231d 0%, #c65520 35%, #e77f22 100%);
+    background: linear-gradient(90deg, var(--auburn) 0%, var(--alloy-orange-dark) 35%, var(--alloy-orange-light) 100%);
     flex: 0 1 auto;
     padding: 0.4rem;
-    color: white;
+    color: var(--white);
 }
 
 h2,
@@ -30,7 +39,7 @@ h3 {
 }
 
 .card {
-    border: 0.5mm solid #bfd7bd;
+    border: 0.5mm solid var(--jet-stream);
     flex-shrink: 1;
     display: flex;
     flex-direction: column;
@@ -38,25 +47,26 @@ h3 {
     margin: 1em;
     justify-content: space-between;
 }
-div.card > div {
+
+div.card>div {
     width: 100%;
-    height: 25rem;   
+    height: 25rem;
 }
 
-div.card>p:first-of-type {
+.color-paragraph:first-of-type {
     font-size: x-large;
 }
 
-div.card>p {
+.color-paragraph {
     font-weight: 550;
-    margin: 0.2em 0.5em;    
+    margin: 0.2em 0.5em;
 }
 
-div.card>button {
+button {
     margin: 0.4em 0.8em;
     padding: 0.6em 1.4em;
-    background-color: #fb1e1f;
-    color: white;
+    background-color: var(--red);
+    color: var(--white);
     width: fit-content;
     border: none;
 }
