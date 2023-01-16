@@ -1,31 +1,95 @@
-import { add_html_element, scale_card, fetch_from_api, add_button_with_onclick_event } from "./helpers.js"
 
-const container_div = add_html_element(
-    { html_tag: "div", class_name: "container" }
-)
-const selected_color_names = [];
+import {rgb_to_hex} from "./helpers.js"
+const selectedColorNames = [];
 const CARD_API = "https://jsonplaceholder.typicode.com/albums/1/photos";
-const response_data = await fetch_from_api(CARD_API)
 
-response_data.forEach(({id,thumbnailUrl,title }) => {
-    const card_element = add_html_element({ html_tag: "div", class_name: "card", parent_element: container_div })
-    const color_hex = "#" + thumbnailUrl.split("/").pop()
-    const color_div = add_html_element({ html_tag: "div", parent_element: card_element })
-    card_element.setAttribute("id", "card-" + (id))
-    color_div.style.backgroundColor = color_hex;
-    for (let index = 0; index < 2; index++) {
-        const p_element = add_html_element({ html_tag: "p", class_name: "color-paragraph", parent_element: card_element })
-        p_element.textContent += title
+class Card {
+    constructor(cardData) {
+        Card.createCard(cardData)
     }
-    const button_attrs = {
-        for: "card-" + id,
-    }
-    add_button_with_onclick_event(
-        {
-            onclick_fun: scale_card,
-            parent_html: card_element,
-            attr_to_add: button_attrs,
-            selected_color_names: selected_color_names,
+    static scaleCard(selectedColorNames, divCard) {
+        let selectedNumber = Number(document.getElementById("number-of-selected").textContent)
+        const colorDiv = divCard.querySelector("div")
+        const button = divCard.querySelector("button")
+        const colorName = ntc.name(rgb_to_hex(colorDiv.style.backgroundColor))[1]
+        if (divCard.getAttribute("style")) {
+            if (!Object.values(divCard.style).indexOf("transform")) {
+                divCard.style.transform = null
+                button.style.backgroundColor = null
+                selectedNumber = selectedNumber - 1;
+                selectedColorNames.splice(selectedColorNames.indexOf(colorName), 1);
+            }
         }
-    )
-});
+        else {
+            divCard.style.transform = "scale(1.1, 1.04)";
+            button.style.backgroundColor = "#168000";
+            selectedNumber = selectedNumber + 1;
+            selectedColorNames.push(colorName)
+        }
+        document.getElementById("number-of-selected").innerText = selectedNumber
+        const allColorsSelected = selectedColorNames.join(" ")
+        document.getElementById("selected-colors").innerText = allColorsSelected
+    }
+
+    static createCard(cardData) {
+        cardData.forEach(({ id, thumbnailUrl, title }) => {
+            const divCard = document.createElement("div");
+            divCard.classList.add("card")
+            document.querySelector(".container").appendChild(divCard)
+            const colorHex = "#" + thumbnailUrl.split("/").pop()
+            const colorDiv = document.createElement("div");
+            divCard.appendChild(colorDiv)
+            divCard.setAttribute("id", "card-" + (id))
+            colorDiv.style.backgroundColor = colorHex;
+            for (let index = 0; index < 2; index++) {
+                const pElement = document.createElement("p");
+                pElement.classList.add("color-paragraph")
+                pElement.textContent += title
+                divCard.appendChild(pElement)
+            }
+            const buttonElement = document.createElement("button")
+            buttonElement.textContent += "Button"
+            divCard.appendChild(buttonElement)
+            buttonElement.setAttribute("for", "card-" + id);
+            buttonElement.addEventListener("click", (e) => this.scaleCard(selectedColorNames, divCard));
+        })
+    }
+}
+
+class CardsList{
+    constructor(fetchData) {
+        this.fetchData = fetchData;
+    }
+    static async getCardsList() {
+        let responseData;
+        return await fetch(CARD_API)
+            .then((response) => responseData = response.json())
+    }
+}
+
+class CardPage extends CardsList {
+    constructor() {
+        CardPage.createContainerDiv()
+        let fetchedData
+        CardPage.fetchCardData().then(
+            (response) => new Card(response)
+        )
+        super(fetchedData)
+
+    }
+    static createContainerDiv() {
+        const containerDev = document.createElement("div");
+        containerDev.classList.add("container")
+        document.body.appendChild(containerDev)
+    }
+    static async fetchCardData() {
+        try {
+            const result = await CardsList.getCardsList()
+            return result
+        } catch (error) {
+            return [];
+        }
+    }
+}
+
+const test = new CardPage()
