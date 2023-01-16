@@ -1,5 +1,5 @@
 
-import {rgb_to_hex} from "./helpers.js"
+import { rgb_to_hex } from "./helpers.js"
 const selectedColorNames = [];
 const CARD_API = "https://jsonplaceholder.typicode.com/albums/1/photos";
 
@@ -56,7 +56,7 @@ class Card {
     }
 }
 
-class CardsList{
+class CardsList {
     constructor(fetchData) {
         this.fetchData = fetchData;
     }
@@ -75,7 +75,6 @@ class CardPage extends CardsList {
             (response) => new Card(response)
         )
         super(fetchedData)
-
     }
     static createContainerDiv() {
         const containerDev = document.createElement("div");
