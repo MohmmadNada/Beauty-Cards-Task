@@ -60,18 +60,18 @@ class CardsList{
     constructor(fetchData) {
         this.fetchData = fetchData;
     }
-    static async getCardsList() {
+    static async getCardsList(cardApiLink) {
         let responseData;
-        return await fetch(CARD_API)
+        return await fetch(cardApiLink)
             .then((response) => responseData = response.json())
     }
 }
 
 class CardPage extends CardsList {
-    constructor() {
+    constructor(cardApiLink) {
         CardPage.createContainerDiv()
         let fetchedData
-        CardPage.fetchCardData().then(
+        CardPage.fetchCardData(cardApiLink).then(
             (response) => new Card(response)
         )
         super(fetchedData)
@@ -82,9 +82,9 @@ class CardPage extends CardsList {
         containerDev.classList.add("container")
         document.body.appendChild(containerDev)
     }
-    static async fetchCardData() {
+    static async fetchCardData(cardApiLink) {
         try {
-            const result = await CardsList.getCardsList()
+            const result = await CardsList.getCardsList(cardApiLink)
             return result
         } catch (error) {
             return [];
@@ -92,4 +92,4 @@ class CardPage extends CardsList {
     }
 }
 
-const test = new CardPage()
+new CardPage(CARD_API)
