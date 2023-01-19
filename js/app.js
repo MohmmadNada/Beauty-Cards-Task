@@ -31,50 +31,52 @@ class Card {
         document.getElementById("selected-colors").innerText = allColorsSelected
     }
 
-    static createCard(cardData) {
-        cardData.forEach(({ id, thumbnailUrl, title }) => {
-            const divCard = document.createElement("div");
-            divCard.classList.add("card")
-            document.querySelector(".container").appendChild(divCard)
-            const colorHex = "#" + thumbnailUrl.split("/").pop()
-            const colorDiv = document.createElement("div");
-            divCard.appendChild(colorDiv)
-            divCard.setAttribute("id", "card-" + (id))
-            colorDiv.style.backgroundColor = colorHex;
-            for (let index = 0; index < 2; index++) {
-                const pElement = document.createElement("p");
-                pElement.classList.add("color-paragraph")
-                pElement.textContent += title
-                divCard.appendChild(pElement)
-            }
-            const buttonElement = document.createElement("button")
-            buttonElement.textContent += "Button"
-            divCard.appendChild(buttonElement)
-            buttonElement.setAttribute("for", "card-" + id);
-            buttonElement.addEventListener("click", (e) => this.scaleCard(selectedColorNames, divCard));
-        })
+    static createCard(id, thumbnailUrl, title) {
+        const divCard = document.createElement("div");
+        divCard.classList.add("card")
+        document.querySelector(".container").appendChild(divCard)
+        const colorHex = "#" + thumbnailUrl.split("/").pop()
+        const colorDiv = document.createElement("div");
+        divCard.appendChild(colorDiv)
+        divCard.setAttribute("id", "card-" + (id))
+        colorDiv.style.backgroundColor = colorHex;
+        for (let index = 0; index < 2; index++) {
+            const pElement = document.createElement("p");
+            pElement.classList.add("color-paragraph")
+            pElement.textContent += title
+            divCard.appendChild(pElement)
+        }
+        const buttonElement = document.createElement("button")
+        buttonElement.textContent += "Button"
+        divCard.appendChild(buttonElement)
+        buttonElement.setAttribute("for", "card-" + id);
+        buttonElement.addEventListener("click", (e) => this.scaleCard(selectedColorNames, divCard));
     }
 }
 
 class CardsList {
     constructor(fetchData) {
         this.fetchData = fetchData;
+        CardsList.createCards(fetchData)
     }
     static async getCardsList(cardApiLink) {
         let responseData;
         return await fetch(cardApiLink)
             .then((response) => responseData = response.json())
     }
+    static createCards(cardInfo) {
+        cardInfo.forEach(element => {
+            Card.createCard(element.id, element.thumbnailUrl, element.title)
+        });
+    }
 }
 
-class CardPage extends CardsList {
+class CardPage {
     constructor(cardApiLink) {
         CardPage.createContainerDiv()
         let fetchedData
-        CardPage.fetchCardData(cardApiLink).then(
-            (response) => new Card(response)
-        )
-        super(fetchedData)
+        CardPage.fetchCardData(cardApiLink)
+            .then(response => new CardsList(response))
     }
     static createContainerDiv() {
         const containerDev = document.createElement("div");
