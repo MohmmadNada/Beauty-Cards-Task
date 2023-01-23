@@ -86,7 +86,7 @@ class CardPage {
     static async fetchCardData(cardApiLink) {
         try {
             const result = await CardsList.getCardsList(cardApiLink)
-            return result
+            return result.slice(0,19)
         } catch (error) {
             return [];
         }
