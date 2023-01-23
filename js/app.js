@@ -4,8 +4,8 @@ const selectedColorNames = [];
 const CARD_API = "https://jsonplaceholder.typicode.com/albums/1/photos";
 
 class Card {
-    constructor(cardData) {
-        Card.createCard(cardData)
+    constructor(cardId, cardThumbnailUrl, cardTitle) {
+        Card.createCard(cardId, cardThumbnailUrl, cardTitle)
     }
     static scaleCard(selectedColorNames, divCard) {
         let selectedNumber = Number(document.getElementById("number-of-selected").textContent)
@@ -66,7 +66,7 @@ class CardsList {
     }
     static createCards(cardInfo) {
         cardInfo.forEach(element => {
-            Card.createCard(element.id, element.thumbnailUrl, element.title)
+            new Card(element.id, element.thumbnailUrl, element.title)
         });
     }
 }
